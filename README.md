@@ -17,7 +17,9 @@ The following **required** user stories are complete:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='i.imgur.com/a/wr3N5rV.gifv' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://imgur.com/a/9gj2cD4' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+![Imgur Image](http://i.imgur.com/a/9gj2cD4.jpg)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
