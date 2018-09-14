@@ -9,15 +9,26 @@
 import UIKit
 import AlamofireImage
 
-class NowPlayingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class NowPlayingViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
     
     var movies: [[String: Any]] = []
+    var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(NowPlayingViewController.didPullToRefresh(_ :)), for: .valueChanged)
+        tableView.insertSubview(refreshControl, at: 0)
         tableView.dataSource = self
-        tableView.delegate = self
+        fetchNowPlayingMovies()
+    }
+    
+    @objc func didPullToRefresh(_ refreshControl: UIRefreshControl) {
+        fetchNowPlayingMovies()
+    }
+    
+    func fetchNowPlayingMovies() {
         let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")!
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
@@ -27,10 +38,11 @@ class NowPlayingViewController: UIViewController, UITableViewDelegate, UITableVi
                 print(error.localizedDescription)
             } else if let data = data {
                 let dataDictionary = try!
-                JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+                    JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
                 let movies = dataDictionary["results"] as! [[String: Any]]
                 self.movies = movies
                 self.tableView.reloadData()
+                self.refreshControl.endRefreshing()
             }
         }
         task.resume()
@@ -52,7 +64,7 @@ class NowPlayingViewController: UIViewController, UITableViewDelegate, UITableVi
         let baseURLString = "https://image.tmdb.org/t/p/w500"
         let posterURL = URL(string: baseURLString + posterPathString)!
         cell.posterImageView.af_setImage(withURL: posterURL)
-        
+    
         return cell
     }
 
