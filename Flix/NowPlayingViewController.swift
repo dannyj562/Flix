@@ -13,18 +13,38 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
     
     var movies: [[String: Any]] = []
+    var activityIndicator: UIActivityIndicatorView!
     var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(NowPlayingViewController.didPullToRefresh(_ :)), for: .valueChanged)
-        tableView.insertSubview(refreshControl, at: 0)
         tableView.dataSource = self
+        createCustomActivityIndicator()
+        createPullToRefreshControl()
         fetchNowPlayingMovies()
     }
     
+    func createPullToRefreshControl() {
+        refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.red
+        refreshControl.addTarget(self, action: #selector(NowPlayingViewController.didPullToRefresh(_ :)), for: .valueChanged)
+        tableView.insertSubview(refreshControl, at: 0)
+    }
+    
+    func createCustomActivityIndicator() {
+        let rect = CGRect(origin: CGPoint(x: self.tableView.contentSize.width/2.0,
+                                          y: self.tableView.contentSize.height/2.0), size: CGSize(width: 5000, height: 5000))
+        self.activityIndicator = UIActivityIndicatorView(frame: rect) as UIActivityIndicatorView
+        self.activityIndicator.center = self.view.center
+        self.activityIndicator.hidesWhenStopped = true
+        self.activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.whiteLarge
+        self.activityIndicator.color = UIColor.red
+        self.activityIndicator.startAnimating()
+        self.view.addSubview(activityIndicator)
+    }
+    
     @objc func didPullToRefresh(_ refreshControl: UIRefreshControl) {
+        self.activityIndicator.startAnimating()
         fetchNowPlayingMovies()
     }
     
@@ -43,6 +63,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
                 self.movies = movies
                 self.tableView.reloadData()
                 self.refreshControl.endRefreshing()
+                self.activityIndicator.stopAnimating()
             }
         }
         task.resume()
@@ -59,14 +80,10 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
         let overview = movie["overview"] as! String
         cell.titleLabel.text = title
         cell.overviewLabel.text = overview
-        cell.activityIndicator.startAnimating()
-        
         let posterPathString = movie["poster_path"] as! String
         let baseURLString = "https://image.tmdb.org/t/p/w500"
         let posterURL = URL(string: baseURLString + posterPathString)!
         cell.posterImageView.af_setImage(withURL: posterURL)
-        cell.activityIndicator.stopAnimating()
-    
         return cell
     }
 
