@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,38 +19,52 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="467" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9XY-Vl-4Kv">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="339" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9XY-Vl-4Kv">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.97510258839999997" green="0.97510258839999997" blue="0.97510258839999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="separatorColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MovieCell" rowHeight="467" id="v6L-vm-pOb" customClass="MovieCell" customModule="Flix" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="467"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MovieCell" rowHeight="339" id="v6L-vm-pOb" customClass="MovieCell" customModule="Flix" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="339"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="v6L-vm-pOb" id="CsD-QU-YeQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="466.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="338.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vIv-au-XmD">
-                                                    <rect key="frame" x="15" y="11" width="182" height="436"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vIv-au-XmD">
+                                                    <rect key="frame" x="15" y="16" width="182" height="253"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="182" id="HS1-qL-SsP"/>
+                                                        <constraint firstAttribute="height" constant="253" id="V7r-IQ-C6A"/>
+                                                    </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Overview" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qUj-aX-eSh">
-                                                    <rect key="frame" x="211" y="96" width="149" height="351"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4By-ds-RCB">
+                                                    <rect key="frame" x="202" y="20" width="168" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4By-ds-RCB">
-                                                    <rect key="frame" x="205" y="11" width="155" height="64"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Overview" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qUj-aX-eSh">
+                                                    <rect key="frame" x="202" y="48" width="168" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <color key="backgroundColor" red="0.93704782693207911" green="0.92303219303288631" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="vIv-au-XmD" secondAttribute="bottom" constant="50" id="51g-AD-ipb"/>
+                                                <constraint firstAttribute="trailing" secondItem="qUj-aX-eSh" secondAttribute="trailing" constant="5" id="7jR-lK-qYr"/>
+                                                <constraint firstItem="vIv-au-XmD" firstAttribute="top" secondItem="CsD-QU-YeQ" secondAttribute="topMargin" constant="5" id="A0g-XR-hop"/>
+                                                <constraint firstItem="vIv-au-XmD" firstAttribute="leading" secondItem="CsD-QU-YeQ" secondAttribute="leadingMargin" id="A8Z-yd-PIs"/>
+                                                <constraint firstAttribute="trailing" secondItem="4By-ds-RCB" secondAttribute="trailing" constant="5" id="LOl-5T-QTV"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="4By-ds-RCB" secondAttribute="bottom" constant="-33" id="VSp-Nb-1D7"/>
+                                                <constraint firstItem="4By-ds-RCB" firstAttribute="top" secondItem="CsD-QU-YeQ" secondAttribute="top" constant="20" id="ZQy-DH-t5T"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="qUj-aX-eSh" secondAttribute="bottom" constant="5" id="hX2-GU-pQA"/>
+                                                <constraint firstItem="qUj-aX-eSh" firstAttribute="top" secondItem="4By-ds-RCB" secondAttribute="bottom" constant="10" id="qEs-Ar-Fd8"/>
+                                                <constraint firstItem="4By-ds-RCB" firstAttribute="leading" secondItem="vIv-au-XmD" secondAttribute="trailing" constant="5" id="vJB-A9-mel"/>
+                                                <constraint firstItem="qUj-aX-eSh" firstAttribute="leading" secondItem="vIv-au-XmD" secondAttribute="trailing" constant="5" id="z9s-Td-T6F"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="overviewLabel" destination="qUj-aX-eSh" id="4RK-sE-N9l"/>
@@ -61,7 +76,12 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" red="0.97510258839999997" green="0.97510258839999997" blue="0.97510258839999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="9XY-Vl-4Kv" secondAttribute="bottom" id="ISX-El-uP2"/>
+                            <constraint firstItem="9XY-Vl-4Kv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="abf-IF-USJ"/>
+                            <constraint firstItem="9XY-Vl-4Kv" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="oAo-GR-hgd"/>
+                            <constraint firstItem="9XY-Vl-4Kv" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="usT-b6-G8v"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Now Playing Movies" id="gEH-ho-ZA2"/>
@@ -159,6 +179,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="rL2-SZ-Nqr" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="QgZ-FK-I99">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </tabBar>
                     <connections>
