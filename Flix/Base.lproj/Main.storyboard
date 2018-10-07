@@ -15,7 +15,7 @@
         <!--Now Playing Movies-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="NowPlayingViewController" customModule="Flix" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="NowPlayingViewController" customModule="Flix" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -73,7 +73,7 @@
                                             <outlet property="overviewLabel" destination="qUj-aX-eSh" id="4RK-sE-N9l"/>
                                             <outlet property="posterImageView" destination="vIv-au-XmD" id="mLd-dj-eYB"/>
                                             <outlet property="titleLabel" destination="4By-ds-RCB" id="DYf-fV-n3F"/>
-                                            <segue destination="EJL-Aa-RFn" kind="show" id="Xg5-rv-GGj"/>
+                                            <segue destination="EJL-Aa-RFn" kind="show" identifier="detailView" id="Xg5-rv-GGj"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -99,7 +99,7 @@
         <!--Detail View Controller-->
         <scene sceneID="IPn-Pj-Zmj">
             <objects>
-                <viewController id="EJL-Aa-RFn" customClass="DetailViewController" customModule="Flix" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="EJL-Aa-RFn" customClass="DetailViewController" customModule="Flix" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="AZd-yQ-taa">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

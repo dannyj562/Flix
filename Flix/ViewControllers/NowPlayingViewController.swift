@@ -9,26 +9,25 @@
 import UIKit
 import AlamofireImage
 
-class NowPlayingViewController: UIViewController, UITableViewDataSource {
+class NowPlayingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     
-    var movies: [[String: Any]] = []
+    var movies: [Movie] = []
     var activityIndicator: UIActivityIndicatorView!
     var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
-        createCustomActivityIndicator()
-        createPullToRefreshControl()
-        fetchNowPlayingMovies()
-    }
-    
-    func createPullToRefreshControl() {
-        refreshControl = UIRefreshControl()
-        refreshControl.tintColor = UIColor.red
-        refreshControl.addTarget(self, action: #selector(NowPlayingViewController.didPullToRefresh(_ :)), for: .valueChanged)
-        tableView.insertSubview(refreshControl, at: 0)
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
+        
+        DispatchQueue.global(qos: .userInteractive).async {
+            self.fetchNowPlayingMovies()
+            DispatchQueue.main.async {
+                self.createCustomActivityIndicator()
+                self.createPullToRefreshControl()
+            }
+        }
     }
     
     func createCustomActivityIndicator() {
@@ -43,6 +42,13 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
         self.view.addSubview(activityIndicator)
     }
     
+    func createPullToRefreshControl() {
+        refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.red
+        refreshControl.addTarget(self, action: #selector(NowPlayingViewController.didPullToRefresh(_ :)), for: .valueChanged)
+        tableView.insertSubview(refreshControl, at: 0)
+    }
+    
     @objc func didPullToRefresh(_ refreshControl: UIRefreshControl) {
         self.activityIndicator.startAnimating()
         fetchNowPlayingMovies()
@@ -52,21 +58,26 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
         let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")!
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
-        let task = session.dataTask(with: request) { (data, response, error) in
+        let task = session.dataTask(with: request) {
+            (data, response, error) in
             // This will run when the network request return
             if let error = error {
                 print(error.localizedDescription)
             } else if let data = data {
                 let dataDictionary = try!
                     JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-                let movies = dataDictionary["results"] as! [[String: Any]]
-                self.movies = movies
+                let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
+                self.movies = Movie.movies(dictionaries: movieDictionaries)
                 self.tableView.reloadData()
                 self.refreshControl.endRefreshing()
                 self.activityIndicator.stopAnimating()
             }
         }
         task.resume()
+        
+        for movie in movies {
+            print("\(movie)")
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -75,15 +86,10 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
-        let movie = movies[indexPath.row]
-        let title = movie["title"] as! String
-        let overview = movie["overview"] as! String
-        cell.titleLabel.text = title
-        cell.overviewLabel.text = overview
-        let posterPathString = movie["poster_path"] as! String
-        let baseURLString = "https://image.tmdb.org/t/p/w500"
-        let posterURL = URL(string: baseURLString + posterPathString)!
-        cell.posterImageView.af_setImage(withURL: posterURL)
+        
+        cell.titleLabel.text = movies[indexPath.row].title
+        cell.overviewLabel.text = movies[indexPath.row].overview
+        cell.posterImageView.af_setImage(withURL: movies[indexPath.row].posterUrl!)
         return cell
     }
     
@@ -98,11 +104,20 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let cell = sender as! UITableViewCell
-        if let indexPath = tableView.indexPath(for: cell) {
-            let movie = movies[indexPath.row]
-            let detailViewController = segue.destination as! DetailViewController
-            detailViewController.movies = movie
+        
+        if segue.identifier == "detailView" {
+            //if let indexPath = tableView.indexPath(for: cell) {
+            //let movie = movies[indexPath.row]
             
+            
+            let detailViewController = segue.destination as! DetailViewController
+                
+                //detailViewController.movies = self.movies[indexPath.row]
+            
+            let row = tableView.indexPathForSelectedRow!.row
+            detailViewController.movies = self.movies[row]
+            
+            //}
         }
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.

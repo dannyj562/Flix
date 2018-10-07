@@ -25,11 +25,20 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var overviewLabel: UILabel!
     @IBOutlet weak var averageVoteLabel: UILabel!
     
-    var movies: [String: Any]?
+    var movies: Movie!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let movie = movies {
+        //if let movie = movies {
+        
+            self.titleLabel.text = movies.title
+            self.releaseDateLabel.text = ""
+            self.overviewLabel.text = movies.overview
+            self.averageVoteLabel.text = ""
+            self.backDropImageView.af_setImage(withURL: movies.backDropUrl!)
+            self.posterImageView.af_setImage(withURL: movies.posterUrl!)
+        
+            /*
             self.titleLabel.text = movie[MovieKeys.title] as? String
             self.releaseDateLabel.text = (movie[MovieKeys.releaseDate] as? String)
             self.overviewLabel.text = movie[MovieKeys.overview] as? String
@@ -41,7 +50,8 @@ class DetailViewController: UIViewController {
             let posterPathURL = URL(string: baseURLString + posterPathString)!
             self.backDropImageView.af_setImage(withURL: backDropURL)
             self.posterImageView.af_setImage(withURL: posterPathURL)
-        }
+        //}
+            */
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,7 +59,6 @@ class DetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
     /*
     // MARK: - Navigation
 
