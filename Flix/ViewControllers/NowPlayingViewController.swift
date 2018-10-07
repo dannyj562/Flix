@@ -20,7 +20,6 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
         super.viewDidLoad()
         self.tableView.dataSource = self
         self.tableView.delegate = self
-        
         DispatchQueue.global(qos: .userInteractive).async {
             self.fetchNowPlayingMovies()
             DispatchQueue.main.async {
@@ -55,28 +54,14 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func fetchNowPlayingMovies() {
-        let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")!
-        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
-        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
-        let task = session.dataTask(with: request) {
-            (data, response, error) in
-            // This will run when the network request return
-            if let error = error {
-                print(error.localizedDescription)
-            } else if let data = data {
-                let dataDictionary = try!
-                    JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-                let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
-                self.movies = Movie.movies(dictionaries: movieDictionaries)
+        MovieApiManager().nowPlayingMovies {
+            (movies: [Movie]?, error: Error?) in
+            if let movies = movies {
+                self.movies = movies
                 self.tableView.reloadData()
                 self.refreshControl.endRefreshing()
                 self.activityIndicator.stopAnimating()
             }
-        }
-        task.resume()
-        
-        for movie in movies {
-            print("\(movie)")
         }
     }
     
@@ -86,10 +71,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
-        
-        cell.titleLabel.text = movies[indexPath.row].title
-        cell.overviewLabel.text = movies[indexPath.row].overview
-        cell.posterImageView.af_setImage(withURL: movies[indexPath.row].posterUrl!)
+        cell.movie = self.movies[indexPath.row]
         return cell
     }
     
@@ -100,28 +82,12 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     
     
     // MARK: - Navigation
-    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let cell = sender as! UITableViewCell
-        
         if segue.identifier == "detailView" {
-            //if let indexPath = tableView.indexPath(for: cell) {
-            //let movie = movies[indexPath.row]
-            
-            
             let detailViewController = segue.destination as! DetailViewController
-                
-                //detailViewController.movies = self.movies[indexPath.row]
-            
             let row = tableView.indexPathForSelectedRow!.row
             detailViewController.movies = self.movies[row]
-            
-            //}
         }
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
     }
-    
-    
 }

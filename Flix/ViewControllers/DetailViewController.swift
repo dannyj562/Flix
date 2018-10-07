@@ -8,15 +8,6 @@
 
 import UIKit
 
-enum MovieKeys {
-    static let title = "title"
-    static let releaseDate = "release_date"
-    static let overview = "overview"
-    static let voteAverage = "vote_average"
-    static let backDropPath = "backdrop_path"
-    static let posterPath = "poster_path"
-}
-
 class DetailViewController: UIViewController {
     @IBOutlet weak var backDropImageView: UIImageView!
     @IBOutlet weak var posterImageView: UIImageView!
@@ -29,29 +20,12 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //if let movie = movies {
-        
-            self.titleLabel.text = movies.title
-            self.releaseDateLabel.text = ""
-            self.overviewLabel.text = movies.overview
-            self.averageVoteLabel.text = ""
-            self.backDropImageView.af_setImage(withURL: movies.backDropUrl!)
-            self.posterImageView.af_setImage(withURL: movies.posterUrl!)
-        
-            /*
-            self.titleLabel.text = movie[MovieKeys.title] as? String
-            self.releaseDateLabel.text = (movie[MovieKeys.releaseDate] as? String)
-            self.overviewLabel.text = movie[MovieKeys.overview] as? String
-            self.averageVoteLabel.text = movie[MovieKeys.voteAverage] as? String
-            let backDropPathString = movie[MovieKeys.backDropPath] as! String
-            let posterPathString = movie[MovieKeys.posterPath] as! String
-            let baseURLString = "https://image.tmdb.org/t/p/w500"
-            let backDropURL = URL(string: baseURLString + backDropPathString)!
-            let posterPathURL = URL(string: baseURLString + posterPathString)!
-            self.backDropImageView.af_setImage(withURL: backDropURL)
-            self.posterImageView.af_setImage(withURL: posterPathURL)
-        //}
-            */
+        self.titleLabel.text = movies.title
+        self.releaseDateLabel.text = movies.releaseDate
+        self.overviewLabel.text = movies.overview
+        self.averageVoteLabel.text = ""
+        self.backDropImageView.af_setImage(withURL: movies.backDropUrl!)
+        self.posterImageView.af_setImage(withURL: movies.posterUrl!)
     }
 
     override func didReceiveMemoryWarning() {

@@ -8,19 +8,21 @@
 
 import Foundation
 class Movie {
+    
     var title: String
     var overview: String
+    var releaseDate: String
     var posterPathString: String
     var backDropPathString: String
     var posterUrl: URL?
     var backDropUrl: URL?
     
-    static let apiMovieUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed"
     let baseURLString = "https://image.tmdb.org/t/p/w500"
     
     init(dictionary: [String: Any]) {
         self.title = dictionary["title"] as? String ?? "No Title"
         self.overview = dictionary["overview"] as? String ?? "No Overview"
+        self.releaseDate = dictionary["release_date"] as? String ?? "No Release Date"
         self.posterPathString = dictionary["poster_path"] as? String ?? "No Poster Path"
         self.backDropPathString = dictionary["backdrop_path"] as? String ?? "No Back Drop Path"
         self.posterUrl = URL(string: baseURLString + posterPathString)
